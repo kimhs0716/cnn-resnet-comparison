@@ -1,0 +1,11 @@
+device: "xpu"
+
+data:
+  batch_size: 64
+  num_workers: 0
+
+model:
+  num_classes: 10
+
+train:
+  epochs: 10
