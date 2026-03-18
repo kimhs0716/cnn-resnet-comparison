@@ -18,6 +18,17 @@ Residual connection이 정확도뿐 아니라 학습 안정성 / 수렴 속도 /
 | E5 | PlainCNN-deep | Flip + Crop | Cosine | degradation 확인 |
 | E6 | ResNet-deep | Flip + Crop | Cosine | 깊이 확장성 확인 |
 
+## Results
+
+| ID | Model | Params | Aug | Epochs | Best Val Acc | Test Acc |
+|----|-------|--------|-----|--------|-------------|----------|
+| E1 | PlainCNN | 289K | - | 30 | 83.78% (ep.15) | **83.26%** |
+| E2 | ResNet | - | - | - | - | - |
+| E3 | PlainCNN | - | Flip+Crop | - | - | - |
+| E4 | ResNet | - | Flip+Crop | - | - | - |
+| E5 | PlainCNN-deep | - | Flip+Crop | - | - | - |
+| E6 | ResNet-deep | - | Flip+Crop | - | - | - |
+
 ## Project Structure
 
 ```

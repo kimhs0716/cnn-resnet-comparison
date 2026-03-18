@@ -3,7 +3,7 @@ from torch.utils.data import DataLoader, Subset
 from torchvision import datasets, transforms
 
 
-def get_loaders(data_dir: str, batch_size: int, num_workers: int):
+def get_loaders(data_dir: str, batch_size: int, num_workers: int, augment: bool):
     """returns: train / val / test dataloaders"""
 
     train_transforms = transforms.Compose([
@@ -16,6 +16,9 @@ def get_loaders(data_dir: str, batch_size: int, num_workers: int):
         transforms.ToTensor(),
         transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
     ])
+
+    if not augment:
+        train_transforms = test_transforms
 
     train_data = datasets.CIFAR10(
         root=data_dir, 
