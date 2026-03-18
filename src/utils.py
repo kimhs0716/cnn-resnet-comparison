@@ -37,7 +37,7 @@ def set_seed(seed):
     random.seed(seed)
 
 
-def plot_history(history):
+def plot_history(history, save_path=None, show=True):
     plt.figure(figsize=(12, 5))
 
     best_val_loss = min(history["val_loss"])
@@ -62,4 +62,9 @@ def plot_history(history):
     plt.legend(loc="lower right")
 
     plt.tight_layout()
-    plt.show()
+
+    if save_path is not None:
+        plt.savefig(save_path)
+    if show:
+        plt.show()
+    plt.close()

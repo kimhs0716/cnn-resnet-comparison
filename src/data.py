@@ -3,7 +3,7 @@ from torch.utils.data import DataLoader, Subset
 from torchvision import datasets, transforms
 
 
-def get_loaders(data_dir: str, batch_size: int, num_workers: int, augment: bool):
+def get_loaders(data_dir: str, batch_size: int, num_workers: int, augment: bool, val_split_seed: int = 42):
     """returns: train / val / test dataloaders"""
 
     train_transforms = transforms.Compose([
@@ -39,7 +39,9 @@ def get_loaders(data_dir: str, batch_size: int, num_workers: int, augment: bool)
         transform=test_transforms
     )
 
-    indices = torch.randperm(50000)
+    generator = torch.Generator()
+    generator.manual_seed(val_split_seed)
+    indices = torch.randperm(50000, generator=generator)
     train_indices = indices[:45000]
     val_indices = indices[45000:]
 
