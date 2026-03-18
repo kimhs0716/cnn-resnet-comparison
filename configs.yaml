@@ -9,3 +9,4 @@ model:
 
 train:
   epochs: 10
+  checkpoint_dir: "checkpoints"

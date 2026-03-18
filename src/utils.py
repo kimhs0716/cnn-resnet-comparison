@@ -39,9 +39,14 @@ def set_seed(seed):
 
 def plot_history(history):
     plt.figure(figsize=(12, 5))
+
+    best_val_loss = min(history["val_loss"])
+    best_val_acc = max(history["val_acc"])
+
     plt.subplot(1, 2, 1)
     plt.plot(history["train_loss"], label="Train Loss")
-    plt.plot(history["test_loss"], label="Test Loss")
+    plt.plot(history["val_loss"], label="Validation Loss")
+    plt.axhline(y=best_val_loss, color="r", linestyle="--", label=f"Best Val Loss: {best_val_loss:.4f}")
     plt.title("Loss History")
     plt.xlabel("Epoch")
     plt.ylabel("Loss")
@@ -49,7 +54,8 @@ def plot_history(history):
 
     plt.subplot(1, 2, 2)
     plt.plot(history["train_acc"], label="Train Accuracy")
-    plt.plot(history["test_acc"], label="Test Accuracy")
+    plt.plot(history["val_acc"], label="Validation Accuracy")
+    plt.axhline(y=best_val_acc, color="r", linestyle="--", label=f"Best Val Acc: {best_val_acc:.4f}")
     plt.title("Accuracy History")
     plt.xlabel("Epoch")
     plt.ylabel("Accuracy")
