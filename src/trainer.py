@@ -71,7 +71,7 @@ def train(model, optimizer, criterion, train_loader, val_loader, device, epochs,
 
         duration = time.time() - start
         print(
-            f"[{ts}] Epoch {epoch+1:0{format_n}d}/{epochs}\n"
+            f"[{ts}] ===== Epoch {epoch+1:0{format_n}d}/{epochs} =====\n"
             f"Train: [{train_loss:.4f}, {train_acc:.4f}] | "
             f"Val: [{val_loss:.4f}, {val_acc:.4f}] | "
             f"{duration:.2f}s"

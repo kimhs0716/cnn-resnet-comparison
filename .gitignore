@@ -10,3 +10,6 @@ __pycache__/
 
 # Model Checkpoints
 checkpoints/
+
+# Local Test Notebooks
+test.ipynb

@@ -26,8 +26,8 @@ Residual connection이 정확도뿐 아니라 학습 안정성 / 수렴 속도 /
 | E2 | ResNet | 300K | - | 30 | 78.16% (ep.21) | **77.89%** |
 | E3 | PlainCNN | 289K | Flip+Crop | 30 | 86.42% (ep.30) | **86.25%** |
 | E4 | ResNet | 300K | Flip+Crop | 30 | 84.16% (ep.23) | **83.30%** |
-| E5 | PlainCNN-deep | - | Flip+Crop | - | - | - |
-| E6 | ResNet-deep | - | Flip+Crop | - | - | - |
+| E5 | PlainCNN-deep | 678K | Flip+Crop | 30 | 88.52% (ep.30) | **87.48%** |
+| E6 | ResNet-deep | 687K | Flip+Crop | 30 | 86.58% (ep.23) | **85.36%** |
 
 ## Project Structure
 
@@ -41,7 +41,7 @@ cnn-resnet-comparison/
 │   └── main.ipynb        # 학습 실행 노트북 (실험용)
 └── src/
     ├── data.py           # DataLoader (train / val / test)
-    ├── models.py         # PlainCNN, ResNet, ResidualBlock
+    ├── models.py         # PlainCNN, ResNet, PlainCNNDeep, ResNetDeep, ResidualBlock
     ├── trainer.py        # train / evaluate 함수
     └── utils.py          # device 설정, seed 고정, 시각화
 ```
@@ -54,7 +54,6 @@ Python 3.12 버전 사용을 권장합니다.
 pip install -r requirements.txt
 ```
 
-> Intel GPU(XPU) 환경 기준. `configs.yaml`의 `device` 값을 `cpu` / `cuda`로 바꾸면 각각 CPU / CUDA 환경에서도 동작.
 
 ## Run
 
@@ -67,8 +66,8 @@ CIFAR-10 데이터는 첫 실행 시 `data/` 디렉토리에 자동으로 다운
 ## Environment
 
 - Python 3.x
-- PyTorch 2.9.1+xpu (Intel GPU / XPU)
-- torchvision 0.24.1+xpu
+- PyTorch 2.9.1
+- torchvision 0.24.1
 
 ## Reference
 
