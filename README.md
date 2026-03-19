@@ -72,7 +72,9 @@ cnn-resnet-comparison/
 ├── data/                 # CIFAR-10/100 자동 다운로드
 ├── scripts/
 │   └── main.py           # 학습 실행 파일
-├── results/              # 학습 곡선 및 metrics (gitignore)
+├── results/              # 학습 곡선 및 metrics
+│   ├── CIFAR10/  
+│   └── CIFAR100/  
 └── src/
     ├── data.py           # DataLoader (train / val / test)
     ├── models.py         # PlainCNN, ResNet, ResidualBlock
