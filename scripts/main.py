@@ -77,7 +77,7 @@ def run_experiment(exp_id, cfg, device):
     print(f"Test Loss: {test_loss:.4f} | Test Acc: {test_acc:.4f}")
 
     plot_history(history, save_path=result_dir / exp["save_name"].replace(".pt", ".png"), show=False)
-    save_history(history, save_path=result_dir / exp["save_name"].replace(".pt", ".json"))
+    save_history(history, save_path=result_dir / f"history_{exp_id}.json")
 
     result = {
         "test_loss": test_loss,
