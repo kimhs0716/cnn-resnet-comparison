@@ -94,6 +94,7 @@ def main(cfg_path="configs.yaml", experiments=None):
     metrics = {}
 
     for exp_id in experiments:
+        set_seed(seed)
         start = time.time()
         test_loss, test_acc, best_epoch = run_experiment(exp_id, cfg, device)
         metrics[exp_id] = {
