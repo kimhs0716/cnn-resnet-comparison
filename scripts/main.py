@@ -12,18 +12,18 @@ import yaml
 import torch
 
 from data import get_loaders
-from models import PlainCNN, ResNet, PlainCNNDeep, ResNetDeep
+from models import PlainCNN, ResNet
 from trainer import train, evaluate
 from utils import resolve_device, set_seed, plot_history
 
 
 EXPERIMENTS = {
-    "E1": {"model_cls": PlainCNN,     "augment": False, "save_name": "best_plain_cnn.pt"},
-    "E2": {"model_cls": ResNet,       "augment": False, "save_name": "best_resnet.pt"},
-    "E3": {"model_cls": PlainCNN,     "augment": True,  "save_name": "best_plain_cnn_aug.pt"},
-    "E4": {"model_cls": ResNet,       "augment": True,  "save_name": "best_resnet_aug.pt"},
-    "E5": {"model_cls": PlainCNNDeep, "augment": True,  "save_name": "best_plain_cnn_deep.pt"},
-    "E6": {"model_cls": ResNetDeep,   "augment": True,  "save_name": "best_resnet_deep.pt"},
+    "E1": {"model_cls": PlainCNN, "num_blocks": 2, "augment": False, "save_name": "best_plain_cnn.pt"},
+    "E2": {"model_cls": ResNet,   "num_blocks": 1, "augment": False, "save_name": "best_resnet.pt"},
+    "E3": {"model_cls": PlainCNN, "num_blocks": 2, "augment": True,  "save_name": "best_plain_cnn_aug.pt"},
+    "E4": {"model_cls": ResNet,   "num_blocks": 1, "augment": True,  "save_name": "best_resnet_aug.pt"},
+    "E5": {"model_cls": PlainCNN, "num_blocks": 4, "augment": True,  "save_name": "best_plain_cnn_deep.pt"},
+    "E6": {"model_cls": ResNet,   "num_blocks": 2, "augment": True,  "save_name": "best_resnet_deep.pt"},
 }
 
 
@@ -42,7 +42,7 @@ def run_experiment(exp_id, cfg, device):
     )
     print(f"Train: {len(train_loader)} | Val: {len(val_loader)} | Test: {len(test_loader)} batches")
 
-    model = exp["model_cls"](num_classes=cfg["model"]["num_classes"]).to(device)
+    model = exp["model_cls"](num_classes=cfg["model"]["num_classes"], num_blocks=exp["num_blocks"]).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
     criterion = torch.nn.CrossEntropyLoss()
     print(f"Parameters: {sum(p.numel() for p in model.parameters()):,}")

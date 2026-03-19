@@ -40,7 +40,7 @@ cnn-resnet-comparison/
 │   └── main.py           # 학습 실행 파일
 └── src/
     ├── data.py           # DataLoader (train / val / test)
-    ├── models.py         # PlainCNN, ResNet, PlainCNNDeep, ResNetDeep, ResidualBlock
+    ├── models.py         # PlainCNN, ResNet, ResidualBlock
     ├── trainer.py        # train / evaluate 함수
     └── utils.py          # device 설정, seed 고정, 시각화
 ```
