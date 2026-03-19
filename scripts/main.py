@@ -126,7 +126,7 @@ def main(cfg_path="configs.yaml", experiments=None):
             f"Test Acc: {metric['test_acc']:.4f} | "
             f"Best Epoch: {metric['best_epoch']} | "
             f"Params: {metric['num_params']:,} | "
-            f"Duration: {metric['duration']:.2f}s"
+            f"Duration: {metric['duration']:.2f}s ({metric['duration']/60:.2f}min)"
         )
 
     dataset = cfg["data"]["dataset"]
