@@ -24,8 +24,8 @@ Residual connection이 정확도뿐 아니라 학습 안정성 / 수렴 속도 /
 |----|-------|--------|-----|--------|-------------|----------|
 | E1 | PlainCNN | 289K | - | 30 | 83.44% (ep.28) | **82.60%** |
 | E2 | ResNet | 300K | - | 30 | 78.16% (ep.21) | **77.89%** |
-| E3 | PlainCNN | 289K | Flip+Crop | - | - | - |
-| E4 | ResNet | 300K | Flip+Crop | - | - | - |
+| E3 | PlainCNN | 289K | Flip+Crop | 30 | 86.42% (ep.30) | **86.25%** |
+| E4 | ResNet | 300K | Flip+Crop | 30 | 84.16% (ep.23) | **83.30%** |
 | E5 | PlainCNN-deep | - | Flip+Crop | - | - | - |
 | E6 | ResNet-deep | - | Flip+Crop | - | - | - |
 
