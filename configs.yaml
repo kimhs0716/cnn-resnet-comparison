@@ -9,7 +9,8 @@ model:
   num_classes: 10
 
 train:
-  epochs: 3
+  epochs: 50
   checkpoint_dir: "checkpoints"
+  result_dir: "results"
   augment: true
   val_split_seed: 42
