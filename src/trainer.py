@@ -52,7 +52,7 @@ def train(model, optimizer, criterion, train_loader, val_loader, device, epochs,
     history = {"train_loss": [], "train_acc": [], "val_loss": [], "val_acc": []}
 
     format_n = len(str(epochs))
-    best_val_acc = 0
+    best_val_loss = float("inf")
     ckpt_dir = Path(ckpt_dir)
     ckpt_dir.mkdir(exist_ok=True)
     ckpt_path = ckpt_dir / save_name
@@ -77,10 +77,10 @@ def train(model, optimizer, criterion, train_loader, val_loader, device, epochs,
             f"{duration:.2f}s"
         )
 
-        if val_acc > best_val_acc:
-            best_val_acc = val_acc
+        if val_loss < best_val_loss:
+            best_val_loss = val_loss
             torch.save(model.state_dict(), ckpt_path)
-            print(f"New best model saved at {ckpt_path} with val_acc: {best_val_acc:.4f}")
+            print(f"New best model saved at {ckpt_path} with val_loss: {best_val_loss:.4f}")
 
         print()
 

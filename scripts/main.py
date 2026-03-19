@@ -66,9 +66,9 @@ def run_experiment(exp_id, cfg, device):
         save_name=exp["save_name"],
     )
 
-    best_val_acc = max(history["val_acc"])
-    best_epoch = history["val_acc"].index(best_val_acc) + 1
-    print(f"Loading best model for testing from Epoch {best_epoch} with Val Acc: {best_val_acc:.4f}")
+    best_val_loss = min(history["val_loss"])
+    best_epoch = history["val_loss"].index(best_val_loss) + 1
+    print(f"Loading best model for testing from Epoch {best_epoch} with Val Loss: {best_val_loss:.4f}")
     model.load_state_dict(torch.load(ckpt_dir / exp["save_name"]))
     test_loss, test_acc = evaluate(model, criterion, test_loader, device)
     print(f"Test Loss: {test_loss:.4f} | Test Acc: {test_acc:.4f}")
