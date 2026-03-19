@@ -18,12 +18,12 @@ from utils import resolve_device, set_seed, plot_history, save_history
 
 
 EXPERIMENTS = {
-    "E1": {"model_cls": PlainCNN, "num_blocks": 1, "augment": False, "save_name": "best_plain_cnn.pt"},
-    "E2": {"model_cls": ResNet,   "num_blocks": 1, "augment": False, "save_name": "best_resnet.pt"},
-    "E3": {"model_cls": PlainCNN, "num_blocks": 1, "augment": True,  "save_name": "best_plain_cnn_aug.pt"},
-    "E4": {"model_cls": ResNet,   "num_blocks": 1, "augment": True,  "save_name": "best_resnet_aug.pt"},
-    "E5": {"model_cls": PlainCNN, "num_blocks": 3, "augment": True,  "save_name": "best_plain_cnn_deep.pt"},
-    "E6": {"model_cls": ResNet,   "num_blocks": 3, "augment": True,  "save_name": "best_resnet_deep.pt"},
+    "E1": {"model_cls": PlainCNN, "num_blocks": 1, "augment": False, "save_name": "plain_cnn"},
+    "E2": {"model_cls": ResNet,   "num_blocks": 1, "augment": False, "save_name": "resnet"},
+    "E3": {"model_cls": PlainCNN, "num_blocks": 1, "augment": True,  "save_name": "plain_cnn_aug"},
+    "E4": {"model_cls": ResNet,   "num_blocks": 1, "augment": True,  "save_name": "resnet_aug"},
+    "E5": {"model_cls": PlainCNN, "num_blocks": 3, "augment": True,  "save_name": "plain_cnn_deep"},
+    "E6": {"model_cls": ResNet,   "num_blocks": 3, "augment": True,  "save_name": "resnet_deep"},
 }
 
 
@@ -38,6 +38,7 @@ def run_experiment(exp_id, cfg, device):
     result_dir = Path(cfg["train"].get("result_dir", "results")) / dataset
     ckpt_dir.mkdir(parents=True, exist_ok=True)
     result_dir.mkdir(parents=True, exist_ok=True)
+    save_name = exp["save_name"]
     epochs = cfg["train"]["epochs"]
 
     train_loader, val_loader, test_loader = get_loaders(
@@ -66,18 +67,18 @@ def run_experiment(exp_id, cfg, device):
         device=device,
         epochs=epochs,
         ckpt_dir=ckpt_dir,
-        save_name=exp["save_name"],
+        save_name=f"best_{save_name}.pt",
     )
 
     best_val_loss = min(history["val_loss"])
     best_epoch = history["val_loss"].index(best_val_loss) + 1
     print(f"Loading best model for testing from Epoch {best_epoch} with Val Loss: {best_val_loss:.4f}")
-    model.load_state_dict(torch.load(ckpt_dir / exp["save_name"]))
+    model.load_state_dict(torch.load(ckpt_dir / f"best_{save_name}.pt"))
     test_loss, test_acc = evaluate(model, criterion, test_loader, device)
     print(f"Test Loss: {test_loss:.4f} | Test Acc: {test_acc:.4f}")
 
-    plot_history(history, save_path=result_dir / exp["save_name"].replace(".pt", ".png"), show=False)
-    save_history(history, save_path=result_dir / f"history_{exp_id}.json")
+    plot_history(history, save_path=result_dir / f"{save_name}.png", show=False)
+    save_history(history, save_path=result_dir / f"history_{save_name}.json")
 
     result = {
         "test_loss": test_loss,
