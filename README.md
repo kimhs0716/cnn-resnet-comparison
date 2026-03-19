@@ -37,8 +37,7 @@ cnn-resnet-comparison/
 ├── requirements.txt
 ├── data/                 # CIFAR-10 자동 다운로드
 ├── scripts/
-│   ├── main.py           # 학습 실행 파일
-│   └── main.ipynb        # 학습 실행 노트북 (실험용)
+│   └── main.py           # 학습 실행 파일
 └── src/
     ├── data.py           # DataLoader (train / val / test)
     ├── models.py         # PlainCNN, ResNet, PlainCNNDeep, ResNetDeep, ResidualBlock
