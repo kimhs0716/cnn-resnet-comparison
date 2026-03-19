@@ -2,6 +2,7 @@ device: "xpu"
 seed: 42
 
 data:
+  dataset: "CIFAR10"
   batch_size: 64
   num_workers: 0
 

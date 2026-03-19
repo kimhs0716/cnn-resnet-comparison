@@ -70,6 +70,7 @@ def plot_history(history, save_path=None, show=True):
 
     if save_path is not None:
         plt.savefig(save_path)
+        print(f"Saved training history plot to {save_path}")
     if show:
         plt.show()
     plt.close()

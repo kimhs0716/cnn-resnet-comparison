@@ -34,12 +34,14 @@ def run_experiment(exp_id, cfg, device):
     print(f"{'='*50}")
 
     train_loader, val_loader, test_loader = get_loaders(
+        dataset=cfg["data"]["dataset"],
         data_dir="data",
         batch_size=cfg["data"]["batch_size"],
         num_workers=cfg["data"]["num_workers"],
         augment=exp["augment"],
         val_split_seed=cfg["train"]["val_split_seed"],
     )
+    print(f"Selected Dataset: {cfg['data']['dataset']}")
     print(f"Train: {len(train_loader)} | Val: {len(val_loader)} | Test: {len(test_loader)} batches")
 
     model = exp["model_cls"](num_classes=cfg["model"]["num_classes"], num_blocks=exp["num_blocks"]).to(device)
