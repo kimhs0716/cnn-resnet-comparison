@@ -14,7 +14,7 @@ import torch
 from data import get_loaders
 from models import PlainCNN, ResNet
 from trainer import train, evaluate
-from utils import resolve_device, set_seed, plot_history
+from utils import resolve_device, set_seed, plot_history, save_history
 
 
 EXPERIMENTS = {
@@ -77,6 +77,7 @@ def run_experiment(exp_id, cfg, device):
     print(f"Test Loss: {test_loss:.4f} | Test Acc: {test_acc:.4f}")
 
     plot_history(history, save_path=result_dir / exp["save_name"].replace(".pt", ".png"), show=False)
+    save_history(history, save_path=result_dir / exp["save_name"].replace(".pt", ".json"))
 
     result = {
         "test_loss": test_loss,

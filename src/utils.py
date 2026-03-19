@@ -1,3 +1,4 @@
+import json
 import random
 
 import torch
@@ -74,3 +75,10 @@ def plot_history(history, save_path=None, show=True):
     if show:
         plt.show()
     plt.close()
+
+
+def save_history(history, save_path):
+    with open(save_path, "w") as f:
+        json.dump(history, f, indent=4)
+    print(f"Saved training history to {save_path}")
+

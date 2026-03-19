@@ -67,7 +67,7 @@ pip install -r requirements_xpu.txt
 python scripts/main.py
 ```
 
-CIFAR-10 데이터는 첫 실행 시 `data/` 디렉토리에 자동으로 다운로드
+CIFAR-10 / CIFAR-100 데이터는 첫 실행 시 `data/` 디렉토리에 자동으로 다운로드
 
 ## Environment
 
