@@ -48,8 +48,8 @@ def run_experiment(exp_id, cfg, device):
     print(f"Parameters: {sum(p.numel() for p in model.parameters()):,}")
 
     ckpt_dir = Path(cfg["train"].get("checkpoint_dir", "checkpoints"))
+    result_dir = Path(cfg["train"].get("result_dir", "results"))
     ckpt_dir.mkdir(exist_ok=True)
-    result_dir = Path("results")
     result_dir.mkdir(exist_ok=True)
     epochs = cfg["train"]["epochs"]
 
@@ -113,9 +113,11 @@ def main(cfg_path="configs.yaml", experiments=None):
             f"Best Epoch: {metric['best_epoch']} | "
             f"Duration: {metric['duration']:.2f}s"
         )
-    save_path = "results/final_metrics.json"
+
+    result_dir = Path(cfg["train"].get("result_dir", "results"))
+    save_path = result_dir / "final_metrics.json"
     with open(save_path, "w") as f:
-        json.dump(metrics, f)
+        json.dump(metrics, f, indent=4)
 
 if __name__ == "__main__":
     main("configs.yaml")
