@@ -30,18 +30,25 @@ EXPERIMENTS = {
 def run_experiment(exp_id, cfg, device):
     exp = EXPERIMENTS[exp_id]
     print(f"\n{'='*50}")
-    print(f"Experiment {exp_id}: {exp['model_cls'].__name__} | augment={exp['augment']}")
+    print(f"Experiment {exp_id}: {exp['model_cls'].__name__} | num_blocks={exp['num_blocks']} | augment={exp['augment']}")
     print(f"{'='*50}")
 
+    dataset = cfg["data"]["dataset"]
+    ckpt_dir = Path(cfg["train"].get("checkpoint_dir", "checkpoints")) / dataset
+    result_dir = Path(cfg["train"].get("result_dir", "results")) / dataset
+    ckpt_dir.mkdir(parents=True, exist_ok=True)
+    result_dir.mkdir(parents=True, exist_ok=True)
+    epochs = cfg["train"]["epochs"]
+
     train_loader, val_loader, test_loader = get_loaders(
-        dataset=cfg["data"]["dataset"],
+        dataset=dataset,
         data_dir="data",
         batch_size=cfg["data"]["batch_size"],
         num_workers=cfg["data"]["num_workers"],
         augment=exp["augment"],
         val_split_seed=cfg["train"]["val_split_seed"],
     )
-    print(f"Selected Dataset: {cfg['data']['dataset']}")
+    print(f"Selected Dataset: {dataset}")
     print(f"Train: {len(train_loader)} | Val: {len(val_loader)} | Test: {len(test_loader)} batches")
 
     model = exp["model_cls"](num_classes=cfg["model"]["num_classes"], num_blocks=exp["num_blocks"]).to(device)
@@ -49,12 +56,6 @@ def run_experiment(exp_id, cfg, device):
     criterion = torch.nn.CrossEntropyLoss()
     num_params = sum(p.numel() for p in model.parameters())
     print(f"Parameters: {num_params:,}")
-
-    ckpt_dir = Path(cfg["train"].get("checkpoint_dir", "checkpoints"))
-    result_dir = Path(cfg["train"].get("result_dir", "results"))
-    ckpt_dir.mkdir(exist_ok=True)
-    result_dir.mkdir(exist_ok=True)
-    epochs = cfg["train"]["epochs"]
 
     history = train(
         model=model,
@@ -126,7 +127,8 @@ def main(cfg_path="configs.yaml", experiments=None):
             f"Duration: {metric['duration']:.2f}s"
         )
 
-    result_dir = Path(cfg["train"].get("result_dir", "results"))
+    dataset = cfg["data"]["dataset"]
+    result_dir = Path(cfg["train"].get("result_dir", "results")) / dataset
     save_path = result_dir / "final_metrics.json"
     with open(save_path, "w") as f:
         json.dump(metrics, f, indent=4)
