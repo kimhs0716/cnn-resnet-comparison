@@ -3,31 +3,37 @@ import torch.nn.functional as F
 
 
 class PlainCNN(nn.Module):
-    def __init__(self, num_classes=10, num_blocks=2):
+    def __init__(self, num_classes=10, num_blocks=1):
         super().__init__()
 
+        def make_block(in_ch, out_ch):
+            return nn.Sequential(
+                nn.Conv2d(in_ch, out_ch, kernel_size=3, padding=1, bias=False), nn.BatchNorm2d(out_ch), nn.ReLU(),
+                nn.Conv2d(out_ch, out_ch, kernel_size=3, padding=1, bias=False), nn.BatchNorm2d(out_ch), nn.ReLU(),
+            )
+
         def make_stage(in_ch, out_ch, pool=True):
-            layers = [nn.Conv2d(in_ch, out_ch, kernel_size=3, padding=1, bias=False), nn.BatchNorm2d(out_ch), nn.ReLU()]
+            layers = [make_block(in_ch, out_ch)]
             for _ in range(num_blocks - 1):
-                layers += [nn.Conv2d(out_ch, out_ch, kernel_size=3, padding=1, bias=False), nn.BatchNorm2d(out_ch), nn.ReLU()]
+                layers.append(make_block(out_ch, out_ch))
             if pool:
                 layers.append(nn.MaxPool2d(2))
             return nn.Sequential(*layers)
 
         # (B, 3, 32, 32) -> (B, 32, 16, 16)
-        self.block1 = make_stage(3, 32, pool=True)
+        self.stage1 = make_stage(3, 32, pool=True)
         # (B, 32, 16, 16) -> (B, 64, 8, 8)
-        self.block2 = make_stage(32, 64, pool=True)
+        self.stage2 = make_stage(32, 64, pool=True)
         # (B, 64, 8, 8) -> (B, 128, 8, 8)
-        self.block3 = make_stage(64, 128, pool=False)
+        self.stage3 = make_stage(64, 128, pool=False)
 
         self.GAP = nn.AdaptiveAvgPool2d(1)
         self.classifier = nn.Linear(128, num_classes)
 
     def forward(self, x):
-        x = self.block1(x)
-        x = self.block2(x)
-        x = self.block3(x)
+        x = self.stage1(x)
+        x = self.stage2(x)
+        x = self.stage3(x)
         x = self.GAP(x)
         x = x.view(x.size(0), -1)
         return self.classifier(x)
@@ -67,19 +73,19 @@ class ResNet(nn.Module):
             return nn.Sequential(*layers)
 
         # (B, 3, 32, 32) -> (B, 32, 16, 16)
-        self.block1 = make_stage(3, 32, stride=2)
+        self.stage1 = make_stage(3, 32, stride=2)
         # (B, 32, 16, 16) -> (B, 64, 8, 8)
-        self.block2 = make_stage(32, 64, stride=2)
+        self.stage2 = make_stage(32, 64, stride=2)
         # (B, 64, 8, 8) -> (B, 128, 8, 8)
-        self.block3 = make_stage(64, 128, stride=1)
+        self.stage3 = make_stage(64, 128, stride=1)
 
         self.GAP = nn.AdaptiveAvgPool2d(1)
         self.classifier = nn.Linear(128, num_classes)
 
     def forward(self, x):
-        x = self.block1(x)
-        x = self.block2(x)
-        x = self.block3(x)
+        x = self.stage1(x)
+        x = self.stage2(x)
+        x = self.stage3(x)
         x = self.GAP(x)
         x = x.view(x.size(0), -1)
         return self.classifier(x)
