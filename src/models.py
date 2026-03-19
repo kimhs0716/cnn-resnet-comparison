@@ -20,17 +20,24 @@ class PlainCNN(nn.Module):
                 layers.append(nn.MaxPool2d(2))
             return nn.Sequential(*layers)
 
-        # (B, 3, 32, 32) -> (B, 32, 16, 16)
-        self.stage1 = make_stage(3, 32, pool=True)
-        # (B, 32, 16, 16) -> (B, 64, 8, 8)
+        # (B, 3, 32, 32) -> (B, 32, 32, 32)
+        self.stem = nn.Sequential(
+            nn.Conv2d(3, 32, kernel_size=3, padding=1, bias=False),
+            nn.BatchNorm2d(32),
+            nn.ReLU(),
+        )
+        # (B, 32, 32, 32) -> (B, 32, 32, 32)
+        self.stage1 = make_stage(32, 32, pool=False)
+        # (B, 32, 32, 32) -> (B, 64, 16, 16)
         self.stage2 = make_stage(32, 64, pool=True)
-        # (B, 64, 8, 8) -> (B, 128, 8, 8)
-        self.stage3 = make_stage(64, 128, pool=False)
+        # (B, 64, 16, 16) -> (B, 128, 8, 8)
+        self.stage3 = make_stage(64, 128, pool=True)
 
         self.GAP = nn.AdaptiveAvgPool2d(1)
         self.classifier = nn.Linear(128, num_classes)
 
     def forward(self, x):
+        x = self.stem(x)
         x = self.stage1(x)
         x = self.stage2(x)
         x = self.stage3(x)
@@ -72,17 +79,24 @@ class ResNet(nn.Module):
                 layers.append(ResidualBlock(out_ch, out_ch, stride=1))
             return nn.Sequential(*layers)
 
-        # (B, 3, 32, 32) -> (B, 32, 16, 16)
-        self.stage1 = make_stage(3, 32, stride=2)
-        # (B, 32, 16, 16) -> (B, 64, 8, 8)
+        # (B, 3, 32, 32) -> (B, 32, 32, 32)
+        self.stem = nn.Sequential(
+            nn.Conv2d(3, 32, kernel_size=3, padding=1, bias=False),
+            nn.BatchNorm2d(32),
+            nn.ReLU()
+        )
+        # (B, 32, 32, 32) -> (B, 32, 32, 32)
+        self.stage1 = make_stage(32, 32, stride=1)
+        # (B, 32, 32, 32) -> (B, 64, 16, 16)
         self.stage2 = make_stage(32, 64, stride=2)
-        # (B, 64, 8, 8) -> (B, 128, 8, 8)
-        self.stage3 = make_stage(64, 128, stride=1)
+        # (B, 64, 16, 16) -> (B, 128, 8, 8)
+        self.stage3 = make_stage(64, 128, stride=2)
 
         self.GAP = nn.AdaptiveAvgPool2d(1)
         self.classifier = nn.Linear(128, num_classes)
 
     def forward(self, x):
+        x = self.stem(x)
         x = self.stage1(x)
         x = self.stage2(x)
         x = self.stage3(x)
