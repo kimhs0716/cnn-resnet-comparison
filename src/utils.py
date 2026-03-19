@@ -41,21 +41,27 @@ def plot_history(history, save_path=None, show=True):
     plt.figure(figsize=(12, 5))
 
     best_val_loss = min(history["val_loss"])
+    best_val_loss_epoch = history["val_loss"].index(best_val_loss) + 1
     best_val_acc = max(history["val_acc"])
+    best_val_acc_epoch = history["val_acc"].index(best_val_acc) + 1
+    
+    epoch_range = range(1, len(history["train_loss"]) + 1)
 
     plt.subplot(1, 2, 1)
-    plt.plot(history["train_loss"], label="Train Loss")
-    plt.plot(history["val_loss"], label="Validation Loss")
+    plt.plot(epoch_range, history["train_loss"], label="Train Loss")
+    plt.plot(epoch_range, history["val_loss"], label="Validation Loss")
     plt.axhline(y=best_val_loss, color="r", linestyle="--", label=f"Best Val Loss: {best_val_loss:.4f}")
+    plt.axvline(x=best_val_loss_epoch, color="r", linestyle="--", label=f"Best Val Loss Epoch: {best_val_loss_epoch}")
     plt.title("Loss History")
     plt.xlabel("Epoch")
     plt.ylabel("Loss")
     plt.legend(loc="upper right")
 
     plt.subplot(1, 2, 2)
-    plt.plot(history["train_acc"], label="Train Accuracy")
-    plt.plot(history["val_acc"], label="Validation Accuracy")
+    plt.plot(epoch_range, history["train_acc"], label="Train Accuracy")
+    plt.plot(epoch_range, history["val_acc"], label="Validation Accuracy")
     plt.axhline(y=best_val_acc, color="r", linestyle="--", label=f"Best Val Acc: {best_val_acc:.4f}")
+    plt.axvline(x=best_val_acc_epoch, color="r", linestyle="--", label=f"Best Val Acc Epoch: {best_val_acc_epoch}")
     plt.title("Accuracy History")
     plt.xlabel("Epoch")
     plt.ylabel("Accuracy")

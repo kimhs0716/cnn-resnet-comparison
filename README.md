@@ -22,10 +22,10 @@ Residual connection이 정확도뿐 아니라 학습 안정성 / 수렴 속도 /
 
 | ID | Model | Params | Aug | Epochs | Best Val Acc | Test Acc |
 |----|-------|--------|-----|--------|-------------|----------|
-| E1 | PlainCNN | 289K | - | 30 | 83.78% (ep.15) | **83.26%** |
-| E2 | ResNet | - | - | - | - | - |
-| E3 | PlainCNN | - | Flip+Crop | - | - | - |
-| E4 | ResNet | - | Flip+Crop | - | - | - |
+| E1 | PlainCNN | 289K | - | 30 | 83.44% (ep.28) | **82.60%** |
+| E2 | ResNet | 300K | - | 30 | 78.16% (ep.21) | **77.89%** |
+| E3 | PlainCNN | 289K | Flip+Crop | - | - | - |
+| E4 | ResNet | 300K | Flip+Crop | - | - | - |
 | E5 | PlainCNN-deep | - | Flip+Crop | - | - | - |
 | E6 | ResNet-deep | - | Flip+Crop | - | - | - |
 
@@ -41,7 +41,8 @@ cnn-resnet-comparison/
 │   └── main.ipynb        # 학습 실행 노트북 (실험용)
 └── src/
     ├── data.py           # DataLoader (train / val / test)
-    ├── models.py         # PlainCNN, ResNet
+    ├── models.py         # PlainCNN, ResNet, ResidualBlock
+    ├── trainer.py        # train / evaluate 함수
     └── utils.py          # device 설정, seed 고정, 시각화
 ```
 
