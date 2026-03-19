@@ -1,6 +1,6 @@
 # CNN vs ResNet Comparison on CIFAR-10
 
-Residual connection이 정확도뿐 아니라 학습 안정성 / 수렴 속도 / 깊이 확장성에서 어떤 구조적 차이를 만드는지 실험적으로 분석하는 프로젝트
+Residual Block을 사용하는 ResNet 모델과 일반 CNN 모델간의 성능상 차이 비교
 
 ## Research Question
 
@@ -11,8 +11,8 @@ Residual connection이 정확도뿐 아니라 학습 안정성 / 수렴 속도 /
 
 | ID | Model | Augmentation | Purpose |
 |----|-------|-------------|---------|
-| E1 | PlainCNN | - | baseline 하한 |
-| E2 | ResNet | - | residual 효과 순수 분리 |
+| E1 | PlainCNN | - | baseline 기준 |
+| E2 | ResNet | - | residual 효과 비교 |
 | E3 | PlainCNN | Flip + Crop | augmentation 효과 비교 |
 | E4 | ResNet | Flip + Crop | augmentation 효과 비교 |
 | E5 | PlainCNN-deep | Flip + Crop | degradation 확인 |
@@ -52,6 +52,13 @@ Python 3.12 버전 사용을 권장합니다.
 ```bash
 pip install -r requirements.txt
 ```
+
+
+Intel GPU 환경을 지원합니다.
+```bash
+pip install -r requirements_xpu.txt
+```
+`configs.yaml`의 `device`를 `xpu`로 수정
 
 
 ## Run
