@@ -9,14 +9,14 @@ Residual connection이 정확도뿐 아니라 학습 안정성 / 수렴 속도 /
 
 ## Experiment Plan
 
-| ID | Model | Augmentation | Scheduler | Purpose |
-|----|-------|-------------|-----------|---------|
-| E1 | PlainCNN | - | - | baseline 하한 |
-| E2 | ResNet | - | - | residual 효과 순수 분리 |
-| E3 | PlainCNN | Flip + Crop | Cosine | 공정 비교 |
-| E4 | ResNet | Flip + Crop | Cosine | 공정 비교 |
-| E5 | PlainCNN-deep | Flip + Crop | Cosine | degradation 확인 |
-| E6 | ResNet-deep | Flip + Crop | Cosine | 깊이 확장성 확인 |
+| ID | Model | Augmentation | Purpose |
+|----|-------|-------------|---------|
+| E1 | PlainCNN | - | baseline 하한 |
+| E2 | ResNet | - | residual 효과 순수 분리 |
+| E3 | PlainCNN | Flip + Crop | augmentation 효과 비교 |
+| E4 | ResNet | Flip + Crop | augmentation 효과 비교 |
+| E5 | PlainCNN-deep | Flip + Crop | degradation 확인 |
+| E6 | ResNet-deep | Flip + Crop | 깊이 확장성 확인 |
 
 ## Results
 
